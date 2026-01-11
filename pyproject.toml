@@ -9,6 +9,7 @@ dependencies = [
     "ipykernel>=7.1.0",
     "music21>=9.9.1",
     "numpy>=1.26.4",
+    "pretty-midi>=0.2.11",
     "pydub>=0.25.1",
     "setuptools>=80.9.0",
     "torchcrepe>=0.0.24",
