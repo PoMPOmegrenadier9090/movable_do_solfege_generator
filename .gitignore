@@ -1,3 +1,6 @@
 data/original/*
 data/processed/*
 data/exp/*
+
+data/fma_metadata/*
+data/fma_small/*
