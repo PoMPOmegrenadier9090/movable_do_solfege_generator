@@ -1,22 +1,22 @@
 # solfege-gen
-ソルフェージュを自動作成したい
+キーの変化と相対音名を考慮したソルフェージュの自動作成
 
 ## Flaskアプリ (同期処理)
 
 アップロードした音声から、以下を同期処理で生成します。
 
-- `vocals_hmm.mid`
-- `vocals_hmm_with_inst.wav`
+- `vocals_transcribed.mid`
+- `vocals_transcribed_with_inst.wav`
 - `solfege.json` (推定キー・ノート・移動ド)
 
 ### 実行方法
 
 1. 依存関係をインストール
-2. `ffmpeg` をインストール
+2. `ffmpeg` をインストール (`brew install ffmpeg`)
 3. アプリ起動
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 4. ブラウザで `http://localhost:2026` を開く
@@ -39,19 +39,20 @@ runtime/
 
 ### パイプライン
 
-1. Demucsで分離 (`vocals` を利用)
-2. UVR_MDXNET_KARAで分離 (`Instrumental` を利用)
-3. UVR-DeEcho-DeReverbで `vocals` から No Reverb を生成
-4. basic-pitchベースでMIDI生成
-5. MIDI音源を伴奏とミックス
-6. 推定キーに基づく移動ド(ド/レ/ミ)を生成
+1. Demucsで分離 (ボーカル・ベース・ドラムス・その他を生成)
+2. basic-pitchを利用して，ボーカルを採譜するための特徴量作成
+3. ビートを基準としたグリッド化により量子化
+4. Viterbiアルゴリズムを利用し，グリッドのブロックごとにキー推定
+5. キー情報，モチーフ反復を考慮した特徴量補正
+6. 特徴量に基づいたMIDIデータ生成
+7. 推定キーに基づく移動ド(ド/レ/ミ)ソルフェージュを生成
 
 ### 環境構築
 
-#### 前提条件
+#### 実行環境
 
-- Python 3.9〜3.11
-- macOS (Apple Silicon) の場合、以下のセットアップが必要
+- Python 3.9〜3.11 (uvを用いて環境構築します)
+- macOS M4
 
 #### Apple Silicon (ARM64) での libsamplerate セットアップ
 
@@ -68,14 +69,8 @@ cp $(brew --prefix libsamplerate)/lib/libsamplerate.dylib \
 
 > **注意**: `.venv` 再作成や `samplerate` パッケージ更新のたびに再実行が必要です。
 
-#### demucsによるパート分離
-- 公式リポジトリのminimal requirementsをインストール
-- ffmpegのインストール
-- ipykernel, demucsのインストール
 
-#### torchCREPEによるボーカルのMIDI変換
-basic-pitchよりは，うまく捉えることができている．
-ただ，以下のような課題もある．
-
-- リズムがぐちゃぐちゃ
-- 細かい音，特にダイアトニック以外の音を拾うのが苦手そう
+## 参考文献
+1. https://github.com/librosa/librosa
+2. https://github.com/facebookresearch/demucs
+3. https://github.com/nomadkaraoke/python-audio-separator
