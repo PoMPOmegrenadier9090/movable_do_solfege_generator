@@ -34,7 +34,7 @@ def run_full_pipeline(
     return {
         "job_id": job_id,
         "client_id": client_id,
-        "estimated_key": transcription["estimated_key"],
+        "estimated_global_key": transcription["estimated_global_key"],
         "note_count": transcription["note_count"],
         "media": {
             "midi": f"/api/media/{client_id}/{job_id}/{transcription['midi_filename']}",
@@ -42,4 +42,5 @@ def run_full_pipeline(
             "solfege_json": f"/api/media/{client_id}/{job_id}/{transcription['solfege_filename']}",
         },
         "notes": transcription["notes"],
+        "key_sequence": transcription["key_sequence"],
     }

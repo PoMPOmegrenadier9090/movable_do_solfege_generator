@@ -220,13 +220,21 @@ def run_transcription(
             "pitch": int(note.pitch),
             "velocity": int(note.velocity),
         })
-    note_events_with_solfege = attach_solfege(note_events, global_key)
+    note_events_with_solfege = attach_solfege(note_events, key_sequence, grid_times_np)
+
+    # key_sequence 情報をリストに変換（JSON シリアライズ用）
+    from .solfege import key_index_to_label
+    key_sequence_info = [
+        {"grid_time": float(t), "key": key_index_to_label(int(k))}
+        for t, k in zip(grid_times_np, key_sequence)
+    ]
 
     solfege_json_path = artifacts_dir / "solfege.json"
     with solfege_json_path.open("w", encoding="utf-8") as f:
         json.dump(
             {
-                "estimated_key": global_key.label,
+                "estimated_global_key": global_key.label,
+                "key_sequence": key_sequence_info,
                 "note_count": len(note_events_with_solfege),
                 "notes": note_events_with_solfege,
             },
@@ -238,10 +246,11 @@ def run_transcription(
     logger.info("Transcription pipeline complete")
     return {
         "sample_rate": sr,
-        "estimated_key": global_key.label,
+        "estimated_global_key": global_key.label,
         "midi_filename": midi_path.name,
         "mix_filename": mix_path.name,
         "solfege_filename": solfege_json_path.name,
         "note_count": len(note_events_with_solfege),
         "notes": note_events_with_solfege,
+        "key_sequence": key_sequence_info,
     }

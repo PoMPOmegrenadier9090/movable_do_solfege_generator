@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solfege Generator</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+  <main class="container">
+    <h1>Solfege Generator</h1>
+
+    <section class="panel">
+      <h2>Upload</h2>
+      <form id="upload-form">
+        <label>
+          Client ID
+          <input type="text" id="client-id" name="client_id" value="default_client" />
+        </label>
+        <label>
+          Audio File
+          <input type="file" id="audio-file" name="file" accept=".mp3,.wav,.flac,.ogg,.m4a,.mp4" required />
+        </label>
+        <button type="submit">Start Job</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Status</h2>
+      <p id="job-id">Job: -</p>
+      <p id="job-status">Status: idle</p>
+      <p id="job-step">Step: -</p>
+      <div class="progress-wrap">
+        <div id="progress-bar"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Result</h2>
+      <p id="estimated-key">Estimated Key: -</p>
+      <audio id="mix-audio" controls></audio>
+      <div class="download-links">
+        <a id="midi-link" href="#" target="_blank" rel="noopener">Download MIDI</a>
+        <a id="json-link" href="#" target="_blank" rel="noopener">Download Solfege JSON</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Piano Roll + Solfege</h2>
+      <div id="piano-roll-wrapper">
+        <canvas id="piano-roll-labels"></canvas>
+        <div id="piano-roll-container">
+          <canvas id="piano-roll" height="400"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+
+</html>
