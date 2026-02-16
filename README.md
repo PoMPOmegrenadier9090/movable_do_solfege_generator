@@ -74,3 +74,4 @@ cp $(brew --prefix libsamplerate)/lib/libsamplerate.dylib \
 1. https://github.com/librosa/librosa
 2. https://github.com/facebookresearch/demucs
 3. https://github.com/nomadkaraoke/python-audio-separator
+4. https://github.com/maxrmorrison/torchcrepe
