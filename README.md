@@ -1,6 +1,8 @@
 # solfege-gen
 pops音楽のファイルを入力として，キーの変化と相対音名を考慮したソルフェージュの自動作成を行います．
 
+[好きな曲で相対音感を鍛える！Demucs + Basic Pitch で移動ド譜を自動生成するツールを作った #Python - Qiita](https://qiita.com/PoMPOmegrenadier9090/items/0ccca4b2f74f4b84e103)
+
 ## Flaskアプリ (同期処理)
 
 アップロードした音声から、以下を同期処理で生成します。
